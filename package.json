@@ -4,7 +4,8 @@
   "description": "chrome extends to measure position and size",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack-cli --config ./build/webpack.config.js"
   },
   "keywords": [
     "position",
@@ -12,5 +13,9 @@
     "chrome_extends"
   ],
   "author": "Lian",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.11"
+  }
 }
