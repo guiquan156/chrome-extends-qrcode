@@ -1,5 +1,13 @@
 
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const popupHtml = new HtmlWebpackPlugin({
+  template: path.resolve(__dirname, '../src/tpl/popup.ejs'),
+  filename: path.resolve(__dirname, '../dist/html/popup.html'),
+  chunks: ['popup']
+});
+
 
 module.exports = {
   entry: {
@@ -24,5 +32,6 @@ module.exports = {
     alias: {
       "plugins": path.resolve(__dirname, '../src/js/plugins')
     }
-  }
+  },
+  plugins: [popupHtml]
 };
