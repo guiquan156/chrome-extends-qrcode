@@ -1,0 +1,9 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "chrome": "50.0.0"
+      }
+    }]
+  ]
+}

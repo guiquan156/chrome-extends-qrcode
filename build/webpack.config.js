@@ -9,6 +9,20 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, '../dist')
+    path: path.resolve(__dirname, '../dist/js')
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js/,
+        use: 'babel-loader'
+      }
+    ]
+  },
+  resolve: {
+    extensions: [".js", ".json", ".jsx", ".css"],
+    alias: {
+      "plugins": path.resolve(__dirname, '../src/js/plugins')
+    }
   }
 };
