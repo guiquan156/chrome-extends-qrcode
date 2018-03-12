@@ -1,23 +1,43 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const glob = require('glob');
 
-const popupHtml = new HtmlWebpackPlugin({
-  template: path.resolve(__dirname, '../src/tpl/popup.ejs'),
-  filename: path.resolve(__dirname, '../dist/html/popup.html'),
-  chunks: ['popup']
+const getEntries = pattern => {
+  var entries = glob.sync(pattern);
+  return entries.map(item => {
+    return {
+      path: item,
+      extname: path.extname(item),
+      filename: path.basename(item)
+    }
+  });
+};
+
+const popupHtmls = getEntries('./src/tpl/*.ejs').map(item => {
+  const name = item.filename.split('.')[0];
+  return new HtmlWebpackPlugin({
+    template: item.path,
+    // filename相对于output的目录！！
+    // 可以全部用path.resolve(__dirname, 'path')来统一路径。。
+    filename: `./html/${name}.html`,
+    chunks: [name],
+  });
 });
 
+const jsEntries = getEntries('./src/js/*.js').reduce((record, item) => {
+  const name = item.filename.split('.')[0];
+  record[name] = item.path;
+  return record;
+}, {});
 
 module.exports = {
-  entry: {
-    'background': './src/js/background.js',
-    'content-script': './src/js/content-script.js',
-    'popup': './src/js/popup.js'
-  },
+  entry: jsEntries,
   output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, '../dist/js')
+    filename: 'js/[name].js',
+    // output path 指向dist更容易理解。
+    // 所有filename都基于dist包括plugins中的
+    path: path.resolve(__dirname, '../dist') 
   },
   module: {
     rules: [
@@ -33,5 +53,5 @@ module.exports = {
       "plugins": path.resolve(__dirname, '../src/js/plugins')
     }
   },
-  plugins: [popupHtml]
+  plugins: [...popupHtmls]
 };
