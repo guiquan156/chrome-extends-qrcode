@@ -1,4 +1,4 @@
-
+import img from '../img/icons/icon.png';
 chrome.tabs.query({
   active: true,
   currentWindow: true

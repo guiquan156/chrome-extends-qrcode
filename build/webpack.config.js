@@ -1,6 +1,7 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const glob = require('glob');
 
 const getEntries = pattern => {
@@ -34,16 +35,26 @@ const jsEntries = getEntries('./src/js/*.js').reduce((record, item) => {
 module.exports = {
   entry: jsEntries,
   output: {
-    filename: 'js/[name].js',
+    filename: 'js/[name].[ext]',
     // output path 指向dist更容易理解。
     // 所有filename都基于dist包括plugins中的
-    path: path.resolve(__dirname, '../dist') 
+    path: path.resolve(__dirname, '../dist')
   },
   module: {
     rules: [
       {
-        test: /\.js/,
+        test: /\.(js|json)/,
         use: 'babel-loader'
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)/,
+        use: {
+          // 不用url-loader了，chrome扩展基本不存在加载问题。。
+          loader: 'file-loader',
+          options: {
+            outputPath: './img'
+          }
+        }
       }
     ]
   },
