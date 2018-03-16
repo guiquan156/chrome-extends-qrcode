@@ -35,7 +35,7 @@ const jsEntries = getEntries('./src/js/*.js').reduce((record, item) => {
 module.exports = {
   entry: jsEntries,
   output: {
-    filename: 'js/[name].[ext]',
+    filename: 'js/[name].js',
     // output path 指向dist更容易理解。
     // 所有filename都基于dist包括plugins中的
     path: path.resolve(__dirname, '../dist')
@@ -43,7 +43,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|json)/,
+        test: /\.js/,
         use: 'babel-loader'
       },
       {
